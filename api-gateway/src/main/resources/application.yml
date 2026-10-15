@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive
+
+ems:
+  gateway:
+    # When set (typically via GATEWAY_API_KEY), every /api/** request must send X-API-Key.
+    api-key: ${GATEWAY_API_KEY:}
+  services:
+    order-service-uri: ${ORDER_SERVICE_URI:http://localhost:8081}
+    inventory-service-uri: ${INVENTORY_SERVICE_URI:http://localhost:8082}
+    query-service-uri: ${QUERY_SERVICE_URI:http://localhost:8083}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.douae.ems: INFO
